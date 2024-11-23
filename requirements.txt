@@ -2,4 +2,10 @@ pandas==2.2.2
 matplotlib==3.9.2
 pickle4==0.0.1
 seaborn==0.13.2
-bokeh==3.4.0
+numpy==1.26.4
+bokeh==3.6.0
+mlflow==2.16
+scikit-learn
+mlxtend==0.23.1
+optuna==4.0.0
+autofeat==2.1.3
