@@ -1,0 +1,60 @@
+name: mobile_classifier
+
+services:
+  price-classifier:
+    image: mobile_classifier_model:2
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./models:/models
+
+
+  requests:
+    image: test_requests:0
+    deploy: 
+      replicas: 1
+      restart_policy:
+        condition: always
+        delay: 5s
+
+
+  prometheus:
+    image: prom/prometheus
+    ports: 
+      - "9090:9090"
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    volumes:
+      - "./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml"
+    hostname: prometheus
+
+  
+  graphana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    environment:
+        - GF_SECURITY_ADMIN_USER=admin
+        - GF_SECURITY_ADMIN_PASSWORD=admin
+      
+  # database:
+  #   image: postgres:17.2
+  #   ports:
+  #       - 5432:5432 
+  #   environment:
+  #       - POSTGRES_USER=admin
+  #       - POSTGRES_PASSWORD=admin
+  #       - POSTGRES_DB=my_db_name
+  #       - PGDATA=/var/lib/postgresql/data/pgdata
+  #   volumes:
+  #     - "./database/data:/var/lib/postgresql/data"
+
+  # pgadmin:
+  #   image: dpage/pgadmin4
+  #   ports:
+  #       - 9091:80 
+  #   environment:
+  #       - PGADMIN_DEFAULT_EMAIL=email@example.com
+  #       - PGADMIN_DEFAULT_PASSWORD=admin
+  #   volumes:
+  #     - "./database/pgadmin:/var/lib/pgadmin"

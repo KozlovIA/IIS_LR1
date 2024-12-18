@@ -130,3 +130,33 @@ run_id = "542d03a28f6b465fa07070011e4928a8"
 ![](research/Метрики.png)
 # Скриншот зарегистрированных версий моделей
 ![](research/Зарегистрированные_модели.png)
+
+
+# Сервис классификации
+
+Описание файлов в папке services:
+- api_handler.py включает в себя функции, необходимые для работы модели в FastAPI (загрузка, обработка и т.п.)
+- Dockerfile включает в себя необходимые команды для сборки контейнера с определёнными параметрами
+- main.py содержит основные функции для создания предсказаний
+- requirements.txt содержит необходимые для работы сервиса библиотеки
+
+
+Описание файлов в папке models:
+- get_model.py скрипт для получения модели и записи её в файл формата pkl
+- model.pkl содержит модель полученную в прошлых исследованиях
+
+Создание образа:
+```
+docker build . --tag mobile_classifier_model:0
+```
+
+Запуск контейнера:
+```
+docker run -p 8001:8000 -v $(pwd)/../models:/models mobile_classifier_model:0
+```
+
+Проверить работоспособность сервиса можно следующей командой:
+```
+curl -X 'POST' \'http://localhost:8001/api/prediction?mobile_id=1' \-H 'accept: application/json' \-H 'Content-Type: application/json' \-d '{"battery_power":	842,"blue":	     0,"clock_speed":	2.2,"dual_sim":	0,"fc":	1,"four_g":	0,"int_memory":	7,"m_dep":	0.6,"mobile_wt":	188,"n_cores":	2,"pc":	  2,"px_height": 20,"px_width": 756,"ram": 2549,"sc_h": 9,"sc_w": 7,"talk_time": 19,"three_g": 0,"touch_screen": 0,"wifi": 1
+}'
+```
