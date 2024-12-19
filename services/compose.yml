@@ -1,8 +1,10 @@
-name: mobile_classifier
+version: '3.3'
+
+
 
 services:
   price-classifier:
-    image: mobile_classifier_model:2
+    image: mobile_classifier_model:0
     ports:
       - "8000:8000"
     volumes:
@@ -14,7 +16,7 @@ services:
     deploy: 
       replicas: 1
       restart_policy:
-        condition: always
+        # condition: always
         delay: 5s
 
 
@@ -36,25 +38,3 @@ services:
     environment:
         - GF_SECURITY_ADMIN_USER=admin
         - GF_SECURITY_ADMIN_PASSWORD=admin
-      
-  # database:
-  #   image: postgres:17.2
-  #   ports:
-  #       - 5432:5432 
-  #   environment:
-  #       - POSTGRES_USER=admin
-  #       - POSTGRES_PASSWORD=admin
-  #       - POSTGRES_DB=my_db_name
-  #       - PGDATA=/var/lib/postgresql/data/pgdata
-  #   volumes:
-  #     - "./database/data:/var/lib/postgresql/data"
-
-  # pgadmin:
-  #   image: dpage/pgadmin4
-  #   ports:
-  #       - 9091:80 
-  #   environment:
-  #       - PGADMIN_DEFAULT_EMAIL=email@example.com
-  #       - PGADMIN_DEFAULT_PASSWORD=admin
-  #   volumes:
-  #     - "./database/pgadmin:/var/lib/pgadmin"
